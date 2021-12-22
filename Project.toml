@@ -1,0 +1,4 @@
+[deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Negotiations = "24e1d0de-b6f9-53d0-bef9-cf43d4d39321"
+XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
