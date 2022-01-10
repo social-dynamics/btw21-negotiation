@@ -18,6 +18,17 @@ end
 using DataFrames
 using XLSX
 using SQLite
+using Match
+
+# function to code opinion numerically
+function recode_opinion(opinion::String)
+    @match opinion begin
+        "stimme zu" => 1
+        "neutral" => 0
+        "stimme nicht zu" => -1
+        _ => -10
+    end
+end
 
 # Read data
 df = DataFrame(
@@ -57,7 +68,9 @@ party_table.party_shorthand = replace.(party_table.party_shorthand, r"-" => " ")
 party_table.party_shorthand = replace.(party_table.party_shorthand, " " => "")
 
 statement_table = df[:, [:statement_id, :statement_title, :statement]]
+
 opinion_table = df[:, [:party_id, :statement_id, :position, :position_rationale]]
+opinion_table.position = [recode_opinion(o) for o in opinion_table.position]
 
 # Create database
 db = SQLite.DB("./db.sqlite3")
