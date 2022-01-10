@@ -9,6 +9,7 @@
 # Activate julia env
 using Pkg
 Pkg.activate(".")
+Pkg.update()
 
 # Reset database
 if isfile("./db.sqlite3")
