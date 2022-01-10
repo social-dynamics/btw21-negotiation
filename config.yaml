@@ -11,5 +11,5 @@ parliament:
 parliament_majority: 369
 required_consensus: 0.8
 parties: ["SPD", "CDU_CSU", "GRUENE", "FDP"]
-data_path: "data/data_wide.csv"
+data_path: "db.sqlite3"
 ---

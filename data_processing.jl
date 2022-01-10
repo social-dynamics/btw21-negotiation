@@ -1,6 +1,7 @@
 # - Prerequesites: 
 # --- either: 
-# ----- download wahlomat data manually from https://www.bpb.de/system/files/datei/Wahl-O-Mat%20Bundestag%202021_Datensatz_v1.02.zip 
+# ----- download wahlomat data manually from:
+#       https://www.bpb.de/system/files/datei/Wahl-O-Mat%20Bundestag%202021_Datensatz_v1.02.zip
 # ----- unzip, rename to 'wahlomat.xlsx', delete everything else
 # --- or:
 # ----- ./get_data.sh
