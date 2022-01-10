@@ -1,12 +1,18 @@
+# - Prerequesites: 
+# --- either: 
+# ----- download wahlomat data manually from https://www.bpb.de/system/files/datei/Wahl-O-Mat%20Bundestag%202021_Datensatz_v1.02.zip 
+# ----- unzip, rename to 'wahlomat.xlsx', delete everything else
+# --- or:
+# ----- ./get_data.sh
+
+# Activate julia env
 using Pkg
 Pkg.activate(".")
 
-# Download, filter, and rename data
-run(`wget https://www.bpb.de/system/files/datei/Wahl-O-Mat%20Bundestag%202021_Datensatz_v1.02.zip -P data`)
-run(`7z x -odata data/'Wahl-O-Mat Bundestag 2021_Datensatz_v1.02.zip'`)
-run(`rm data/'Wahl-O-Mat Bundestag 2021_Datensatz_v1.02.zip'`)
-run(`mv 'data/Wahl-O-Mat Bundestag 2021_Datensatz_v1.02.xlsx' data/wahlomat.xlsx`)
-run(`rm data/Hinweis.txt`)
+# Reset database
+if isfile("./db.sqlite3")
+    Base.Filesystem.rm("./db.sqlite3")  # hard reset: if db exists, drop it
+end
 
 # Dependencies for formatting
 using DataFrames
@@ -36,7 +42,7 @@ rename!(
     ]
 )
 
-# Split tables
+# Split and process tables
 party_table = unique!(df[:, [:party_id, :party_shorthand, :party_name]])
 party_table.party_shorthand = replace.(party_table.party_shorthand, "Ä" => "AE")
 party_table.party_shorthand = replace.(party_table.party_shorthand, "ä" => "ae")
@@ -49,9 +55,6 @@ party_table.party_shorthand = replace.(party_table.party_shorthand, "³" => "3")
 party_table.party_shorthand = replace.(party_table.party_shorthand, r"\." => " ")
 party_table.party_shorthand = replace.(party_table.party_shorthand, r"-" => " ")
 party_table.party_shorthand = replace.(party_table.party_shorthand, " " => "")
-
-
-
 
 statement_table = df[:, [:statement_id, :statement_title, :statement]]
 opinion_table = df[:, [:party_id, :statement_id, :position, :position_rationale]]
@@ -111,6 +114,6 @@ SQLite.execute(db, """
     );
     INSERT INTO opinion SELECT * FROM opinion_old;
     COMMIT;
-    DROP TABLE statement_old;
+    DROP TABLE opinion_old;
 """)
 
