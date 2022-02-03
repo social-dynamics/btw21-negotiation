@@ -120,7 +120,7 @@ SQLite.execute(db, """
     CREATE TABLE opinion
     (
         party_id INTEGER NOT NULL,
-        statement_id INTEGER NOT NULL,l
+        statement_id INTEGER NOT NULL,
         position INTEGER,
         position_rationale TEXT,
         FOREIGN KEY(party_id) REFERENCES party(party_id),
@@ -131,4 +131,3 @@ SQLite.execute(db, """
     COMMIT;
     DROP TABLE opinion_old;
 """)
-
