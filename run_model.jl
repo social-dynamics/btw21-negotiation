@@ -2,6 +2,9 @@
 using Pkg
 Pkg.activate(".")
 
+printstyled("  Running "; color = :green, bold = true)
+print("model...\n")
+
 # Load module
 using Negotiations
 

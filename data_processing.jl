@@ -33,7 +33,8 @@ function recode_opinion(opinion::String)
     end
 end
 
-print("Processing data...\n")
+printstyled("  Processing "; color = :green, bold = true)
+print("data...\n")
 
 # Read data
 df = DataFrame(XLSX.readtable("data/wahlomat.xlsx", "Datensatz Bundestag 2021")...)
@@ -72,7 +73,8 @@ statement_table = unique(df[:, [:statement_id, :statement_title, :statement]])
 opinion_table = df[:, [:party_id, :statement_id, :position, :position_rationale]]
 opinion_table.position = [recode_opinion(o) for o in opinion_table.position]
 
-print("Creating database...\n")
+printstyled("  Creating "; color = :green, bold = true)
+print("database...\n")
 
 # Create database
 db = initialize_db("db")
