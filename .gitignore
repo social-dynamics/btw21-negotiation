@@ -1,5 +1,6 @@
 data/
-db.sqlite3
 Manifest.toml
 *.png
+*.sqlite
+*.sqlite3
 
