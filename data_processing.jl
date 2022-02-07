@@ -33,6 +33,8 @@ function recode_opinion(opinion::String)
     end
 end
 
+print("Processing data...\n")
+
 # Read data
 df = DataFrame(XLSX.readtable("data/wahlomat.xlsx", "Datensatz Bundestag 2021")...)
 
@@ -70,61 +72,10 @@ statement_table = unique(df[:, [:statement_id, :statement_title, :statement]])
 opinion_table = df[:, [:party_id, :statement_id, :position, :position_rationale]]
 opinion_table.position = [recode_opinion(o) for o in opinion_table.position]
 
+print("Creating database...\n")
+
 # Create database
-# db = SQLite.DB("./db.sqlite3")
 db = initialize_db("db")
 SQLite.load!(party_table, db, "party")
 SQLite.load!(statement_table, db, "statement")
 SQLite.load!(opinion_table, db, "opinion")
-
-# # Set keys
-# SQLite.execute(db, """
-#     PRAGMA foreign_keys=off;
-#     BEGIN TRANSACTION;
-#     ALTER TABLE party RENAME TO party_old;
-#     CREATE TABLE party
-#     (
-#         party_id INTEGER NOT NULL PRIMARY KEY,
-#         party_shorthand TEXT,
-#         party_name TEXT,
-#     );
-#     INSERT INTO party SELECT * FROM party_old;
-#     COMMIT;
-#     PRAGMA foreign_keys=on;
-#     DROP TABLE party_old;
-# """)
-
-# SQLite.execute(db, """
-#     PRAGMA foreign_keys=off;
-#     BEGIN TRANSACTION;
-#     ALTER TABLE statement RENAME TO statement_old;
-#     CREATE TABLE statement
-#     (
-#         statement_id INTEGER NOT NULL PRIMARY KEY,
-#         statement_title TEXT,
-#         statement TEXT,
-#     );
-#     INSERT INTO statement SELECT * FROM statement_old;
-#     COMMIT;
-#     PRAGMA foreign_keys=on;
-#     DROP TABLE statement_old;
-# """)
-
-# SQLite.execute(db, """
-#     PRAGMA foreign_keys=on;
-#     BEGIN TRANSACTION;
-#     ALTER TABLE opinion RENAME TO opinion_old;
-#     CREATE TABLE opinion
-#     (
-#         party_id INTEGER NOT NULL,
-#         statement_id INTEGER NOT NULL,
-#         position INTEGER,
-#         position_rationale TEXT,
-#         FOREIGN KEY(party_id) REFERENCES party(party_id),
-#         FOREIGN KEY(statement_id) REFERENCES statement(statement_id),
-#         PRIMARY KEY(party_id, statement_id)
-#     );
-#     INSERT INTO opinion SELECT * FROM opinion_old;
-#     COMMIT;
-#     DROP TABLE opinion_old;
-# """)
