@@ -12,4 +12,4 @@ using Negotiations
 params = parameter_set_from_config("config.yaml")
 db = load_database("db.sqlite")
 model = setup_model(params, db)
-simulate(model, 1, db, batchname = "test")
+@time simulate(model, 3, db, batchname = "test")
