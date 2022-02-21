@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 ./get_data.sh
-julia data_processing.jl
-julia run_model.jl
+julia --threads 4 data_processing.jl
+julia --threads 4 run_model.jl
