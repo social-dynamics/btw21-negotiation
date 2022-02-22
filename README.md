@@ -34,7 +34,8 @@ This entire workflow can be executed with:
 
 ## Requirements
 
-* sqlite3
-* julia 1.7
+* [sqlite3](https://sqlite.org/download.html)
+* [julia 1.7](https://julialang.org/downloads/)
 * [Negotiations.jl](https://github.com/social-dynamics/Negotiations.jl) (apparently needs to be added manually)
-* 
+* [7z](https://www.7-zip.org/download.html)
+* [wget](https://www.gnu.org/software/wget/)
