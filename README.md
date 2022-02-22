@@ -12,7 +12,23 @@ Process the data:
 > julia data_processing.jl
 ```
 
-The basic workflow of [Negotiations.jl](https://github.com/social-dynamics/party-negotiations) is implemented in `test.jl`:
+Run the model:
+
+```
+> julia run_model.jl
+```
+
+The julia runs can be sped up by starting julia with multiple threads:
+
+```
+> julia --threads 4 data_processing.jl
+> julia --threads 4 run_model.jl
+```
+
+
+## Working with Negotiations.jl
+
+The basic workflow of [Negotiations.jl](https://github.com/social-dynamics/party-negotiations) is as follows:
 
 ```{julia}
 using Negotiations
@@ -20,10 +36,14 @@ using Negotiations
 params = parameter_set_from_config("config.yaml")
 db = load_database("db.sqlite")
 model = setup_model(params, db)
-simulate(model, 2, db)
+rule = ContinuousHomophily(inertia = 20.0)
+simulate(model, rule, 3, db, batchname = "my_batchname")
 ```
 
 The `simulate` function writes the simulation results to the provided database.
+
+
+## Shortcut
 
 This entire workflow can be executed with:
 
