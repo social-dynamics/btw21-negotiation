@@ -30,3 +30,11 @@ This entire workflow can be executed with:
 ```
 > ./run.sh
 ```
+
+
+## Requirements
+
+* sqlite3
+* julia 1.7
+* [Negotiations.jl](https://github.com/social-dynamics/Negotiations.jl) (apparently needs to be added manually)
+* 
